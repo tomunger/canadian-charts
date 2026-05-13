@@ -1,9 +1,0 @@
-
-49.89145, -126.86105
-
-http://localhost:8001/tiles/{z}/{x}/{y}.png
-http://192.168.11.30:8001/tiles/{z}/{x}/{y}.png
-
-http://localhost:8001/tiles/12/604/1391.png
-
-192.168.11.30

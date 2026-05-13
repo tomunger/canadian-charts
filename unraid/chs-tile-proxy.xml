@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>chs-tile-proxy</Name>
+  <Repository>ghcr.io/OWNER/canadian-charts:latest</Repository>
+  <Registry>https://ghcr.io/</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support/>
+  <Project>https://github.com/OWNER/canadian-charts</Project>
+  <Overview>Caching XYZ tile proxy for Canadian Hydrographic Service (CHS) ENC nautical charts. Exposes /tiles/{z}/{x}/{y}.png suitable for Gaia GPS and other slippy-map clients. Tiles are fetched on demand from the CHS MapServer and cached to disk.</Overview>
+  <Category>Other: Tools:</Category>
+  <WebUI>http://[IP]:[PORT:8001]/healthz</WebUI>
+  <TemplateURL/>
+  <Icon>https://raw.githubusercontent.com/OWNER/canadian-charts/main/unraid/icon.png</Icon>
+  <ExtraParams>--restart unless-stopped</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Description>Caching XYZ tile proxy for Canadian Hydrographic Service (CHS) ENC nautical charts. Tiles are fetched on demand and cached to disk so repeated views of the same area do not hit the upstream service.
+
+Use the URL `http://&lt;NAS-IP&gt;:8001/tiles/{z}/{x}/{y}.png` as a custom map source in Gaia GPS.</Description>
+
+  <Config Name="WebUI Port" Target="8001" Default="8001" Mode="tcp" Description="HTTP port the tile server listens on." Type="Port" Display="always" Required="true" Mask="false">8001</Config>
+
+  <Config Name="Tile Cache" Target="/var/cache/chs_tiles" Default="/mnt/user/appdata/chs-tile-proxy/cache" Mode="rw" Description="Directory where rendered tiles are cached. Persist this to avoid re-fetching after a container restart." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/chs-tile-proxy/cache</Config>
+
+  <Config Name="Log Level" Target="LOG_LEVEL" Default="INFO" Mode="" Description="Python log level (DEBUG, INFO, WARNING, ERROR)." Type="Variable" Display="advanced" Required="false" Mask="false">INFO</Config>
+
+  <Config Name="Max Zoom" Target="MAX_ZOOM" Default="19" Mode="" Description="Maximum tile zoom level the server will fetch. Higher values waste cache for over-zoomed scales." Type="Variable" Display="advanced" Required="false" Mask="false">19</Config>
+
+  <Config Name="CHS Layers" Target="CHS_LAYERS" Default="show:0,1,2,3,4,5,6,7" Mode="" Description="Which ENC layers to render. Defaults to the visible chart layers (skips data-quality hatching)." Type="Variable" Display="advanced" Required="false" Mask="false">show:0,1,2,3,4,5,6,7</Config>
+
+  <Config Name="Upstream Timeout (s)" Target="UPSTREAM_TIMEOUT" Default="30" Mode="" Description="Seconds to wait for the CHS service before failing a tile request." Type="Variable" Display="advanced" Required="false" Mask="false">30</Config>
+</Container>

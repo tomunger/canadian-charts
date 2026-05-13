@@ -1,0 +1,15 @@
+services:
+  chs-tile-proxy:
+    build: .
+    image: chs-tile-proxy:latest
+    container_name: chs-tile-proxy
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    volumes:
+      - chs_cache:/var/cache/chs_tiles
+    environment:
+      LOG_LEVEL: INFO
+
+volumes:
+  chs_cache:

@@ -30,8 +30,16 @@ All settings are environment variables. Defaults are tuned for typical use; you 
 | `CHS_EXPORT_URL` | CHS production endpoint | The upstream ArcGIS `export` URL. Override only if CHS changes the path. |
 | `CHS_LAYERS` | `show:0,1,2,3,4,5,6,7` | Which ENC layers to render. The default matches the layers enabled by default in the CHS service definition (chart display, features, depths, seabed, traffic routes, special areas, navaids, services). Add `8` for data-quality hatching, `9`–`12` for low-accuracy / shallow-water / overscale warnings. |
 | `TILE_SIZE` | `256` | Tile edge in pixels. Stick with 256 for Gaia GPS. |
-| `MAX_ZOOM` | `19` | Maximum zoom the server will accept; requests above this return HTTP 400. |
+| `MAX_ZOOM` | `17` | Maximum zoom the server will accept; requests above this return HTTP 400. |
 | `CACHE_TTL_MINUTES` | `20160` (14 days) | How long a cached tile is considered fresh. Tiles older than this are re-fetched on the next request. Set to `0` to disable expiry and keep tiles forever. |
+| `CACHE_MAX_BYTES` | `21474836480` (20 GiB) | On-disk cache size cap. A background task evicts oldest-mtime tiles when usage exceeds this. Set to `0` to disable eviction. |
+| `CACHE_EVICTION_INTERVAL_SECONDS` | `3600` | How often the eviction task runs. |
+| `ALLOW_LON_MIN` / `ALLOW_LAT_MIN` / `ALLOW_LON_MAX` / `ALLOW_LAT_MAX` | `-145` / `40` / `-50` / `85` | Lat/lon allowlist envelope. Tiles whose envelope does not intersect this bbox return HTTP 400. Default covers Canadian waters with offshore margin. |
+| `RATE_LIMIT` | `60/minute` | Per-IP rate limit applied to `/tiles/...`. Format is [slowapi-style](https://slowapi.readthedocs.io/) (e.g. `30/minute`, `10/second`, `1000/hour`). |
+| `UPSTREAM_CONCURRENCY` | `8` | Process-wide cap on simultaneous outbound requests to CHS. |
+| `MAX_TILE_BYTES` | `2097152` (2 MiB) | Hard cap on upstream response size; larger responses are rejected with HTTP 502. |
+| `CONTACT` | *(empty)* | Optional contact string (email or URL) appended to the outbound `User-Agent`. Strongly recommended when running publicly so CHS can reach you instead of silently blocking. |
+| `FORWARDED_ALLOW_IPS` | `127.0.0.1` | Trusted-proxy list for uvicorn's `--proxy-headers`. Set this to your reverse-proxy IP (or `*` if you trust the surrounding network) so the rate limiter sees real client IPs from `X-Forwarded-For`. |
 | `UPSTREAM_TIMEOUT` | `30` | Seconds to wait for the CHS service before returning HTTP 502. |
 | `LOG_LEVEL` | `INFO` | Python log level (`DEBUG`, `INFO`, `WARNING`, `ERROR`). |
 

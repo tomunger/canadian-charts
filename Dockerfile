@@ -33,7 +33,8 @@ RUN mkdir -p /var/cache/chs_tiles && chown 99:100 /var/cache/chs_tiles
 COPY --from=build --chown=app:app /app /app
 ENV PATH="/app/.venv/bin:${PATH}" \
     CACHE_DIR=/var/cache/chs_tiles \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    FORWARDED_ALLOW_IPS=127.0.0.1
 
 USER app
 EXPOSE 8001
@@ -42,4 +43,7 @@ VOLUME ["/var/cache/chs_tiles"]
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8001/healthz', timeout=3).status==200 else 1)"
 
-CMD ["uvicorn", "chs_proxy.main:app", "--host", "0.0.0.0", "--port", "8001"]
+# Run via sh so FORWARDED_ALLOW_IPS expands at container start. Set it to
+# the reverse-proxy IP (or "*" if you fully trust the network) when fronted
+# by Caddy/nginx/Traefik so rate limiting sees real client IPs.
+CMD ["sh", "-c", "exec uvicorn chs_proxy.main:app --host 0.0.0.0 --port 8001 --proxy-headers --forwarded-allow-ips=\"${FORWARDED_ALLOW_IPS}\""]

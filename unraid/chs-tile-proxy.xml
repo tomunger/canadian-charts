@@ -30,9 +30,29 @@ Use the URL `http://&lt;NAS-IP&gt;:8001/tiles/{z}/{x}/{y}.png` as a custom map s
 
   <Config Name="Log Level" Target="LOG_LEVEL" Default="INFO" Mode="" Description="Python log level (DEBUG, INFO, WARNING, ERROR)." Type="Variable" Display="advanced" Required="false" Mask="false">INFO</Config>
 
-  <Config Name="Max Zoom" Target="MAX_ZOOM" Default="19" Mode="" Description="Maximum tile zoom level the server will fetch. Higher values waste cache for over-zoomed scales." Type="Variable" Display="advanced" Required="false" Mask="false">19</Config>
+  <Config Name="Max Zoom" Target="MAX_ZOOM" Default="17" Mode="" Description="Maximum tile zoom level the server will fetch. Higher values waste cache for over-zoomed scales." Type="Variable" Display="advanced" Required="false" Mask="false">17</Config>
 
   <Config Name="Cache TTL (minutes)" Target="CACHE_TTL_MINUTES" Default="20160" Mode="" Description="How long a cached tile is considered fresh, in minutes. Default 20160 = 14 days. Set to 0 to keep tiles forever." Type="Variable" Display="advanced" Required="false" Mask="false">20160</Config>
+
+  <Config Name="Cache Size Cap (bytes)" Target="CACHE_MAX_BYTES" Default="21474836480" Mode="" Description="On-disk cache size cap in bytes. Default 21474836480 = 20 GiB. Set to 0 to disable eviction." Type="Variable" Display="advanced" Required="false" Mask="false">21474836480</Config>
+
+  <Config Name="Rate Limit" Target="RATE_LIMIT" Default="60/minute" Mode="" Description="Per-IP rate limit applied to /tiles/... e.g. 60/minute, 10/second, 1000/hour." Type="Variable" Display="advanced" Required="false" Mask="false">60/minute</Config>
+
+  <Config Name="Upstream Concurrency" Target="UPSTREAM_CONCURRENCY" Default="8" Mode="" Description="Maximum simultaneous outbound requests to CHS." Type="Variable" Display="advanced" Required="false" Mask="false">8</Config>
+
+  <Config Name="Max Tile Bytes" Target="MAX_TILE_BYTES" Default="2097152" Mode="" Description="Hard cap on upstream response size, in bytes. Default 2 MiB." Type="Variable" Display="advanced" Required="false" Mask="false">2097152</Config>
+
+  <Config Name="Contact (User-Agent)" Target="CONTACT" Default="" Mode="" Description="Optional contact email or URL added to the outbound User-Agent so CHS can reach you. Strongly recommended when public." Type="Variable" Display="always" Required="false" Mask="false"></Config>
+
+  <Config Name="Trusted Proxy IPs" Target="FORWARDED_ALLOW_IPS" Default="127.0.0.1" Mode="" Description="Comma-separated trusted-proxy IPs for X-Forwarded-For parsing. Set to your reverse-proxy IP (or * if you trust the surrounding network) so rate limits use the real client IP." Type="Variable" Display="advanced" Required="false" Mask="false">127.0.0.1</Config>
+
+  <Config Name="Allowed Lon Min" Target="ALLOW_LON_MIN" Default="-145.0" Mode="" Description="Western edge of the geographic allowlist (degrees). Tiles outside the box return HTTP 400." Type="Variable" Display="advanced" Required="false" Mask="false">-145.0</Config>
+
+  <Config Name="Allowed Lat Min" Target="ALLOW_LAT_MIN" Default="40.0" Mode="" Description="Southern edge of the geographic allowlist (degrees)." Type="Variable" Display="advanced" Required="false" Mask="false">40.0</Config>
+
+  <Config Name="Allowed Lon Max" Target="ALLOW_LON_MAX" Default="-50.0" Mode="" Description="Eastern edge of the geographic allowlist (degrees)." Type="Variable" Display="advanced" Required="false" Mask="false">-50.0</Config>
+
+  <Config Name="Allowed Lat Max" Target="ALLOW_LAT_MAX" Default="85.0" Mode="" Description="Northern edge of the geographic allowlist (degrees)." Type="Variable" Display="advanced" Required="false" Mask="false">85.0</Config>
 
   <Config Name="CHS Layers" Target="CHS_LAYERS" Default="show:0,1,2,3,4,5,6,7" Mode="" Description="Which ENC layers to render. Defaults to the visible chart layers (skips data-quality hatching)." Type="Variable" Display="advanced" Required="false" Mask="false">show:0,1,2,3,4,5,6,7</Config>
 

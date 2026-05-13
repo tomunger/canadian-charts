@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv sync *)",
+      "WebFetch(domain:support.garmin.com)",
+      "WebFetch(domain:www.google.com)",
+      "WebFetch(domain:www.garmin.com)",
+      "WebFetch(domain:duckduckgo.com)"
+    ]
+  }
+}

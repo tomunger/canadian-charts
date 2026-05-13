@@ -31,6 +31,7 @@ All settings are environment variables. Defaults are tuned for typical use; you 
 | `CHS_LAYERS` | `show:0,1,2,3,4,5,6,7` | Which ENC layers to render. The default matches the layers enabled by default in the CHS service definition (chart display, features, depths, seabed, traffic routes, special areas, navaids, services). Add `8` for data-quality hatching, `9`–`12` for low-accuracy / shallow-water / overscale warnings. |
 | `TILE_SIZE` | `256` | Tile edge in pixels. Stick with 256 for Gaia GPS. |
 | `MAX_ZOOM` | `19` | Maximum zoom the server will accept; requests above this return HTTP 400. |
+| `CACHE_TTL_MINUTES` | `20160` (14 days) | How long a cached tile is considered fresh. Tiles older than this are re-fetched on the next request. Set to `0` to disable expiry and keep tiles forever. |
 | `UPSTREAM_TIMEOUT` | `30` | Seconds to wait for the CHS service before returning HTTP 502. |
 | `LOG_LEVEL` | `INFO` | Python log level (`DEBUG`, `INFO`, `WARNING`, `ERROR`). |
 

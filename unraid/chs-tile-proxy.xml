@@ -32,6 +32,8 @@ Use the URL `http://&lt;NAS-IP&gt;:8001/tiles/{z}/{x}/{y}.png` as a custom map s
 
   <Config Name="Max Zoom" Target="MAX_ZOOM" Default="19" Mode="" Description="Maximum tile zoom level the server will fetch. Higher values waste cache for over-zoomed scales." Type="Variable" Display="advanced" Required="false" Mask="false">19</Config>
 
+  <Config Name="Cache TTL (minutes)" Target="CACHE_TTL_MINUTES" Default="20160" Mode="" Description="How long a cached tile is considered fresh, in minutes. Default 20160 = 14 days. Set to 0 to keep tiles forever." Type="Variable" Display="advanced" Required="false" Mask="false">20160</Config>
+
   <Config Name="CHS Layers" Target="CHS_LAYERS" Default="show:0,1,2,3,4,5,6,7" Mode="" Description="Which ENC layers to render. Defaults to the visible chart layers (skips data-quality hatching)." Type="Variable" Display="advanced" Required="false" Mask="false">show:0,1,2,3,4,5,6,7</Config>
 
   <Config Name="Upstream Timeout (s)" Target="UPSTREAM_TIMEOUT" Default="30" Mode="" Description="Seconds to wait for the CHS service before failing a tile request." Type="Variable" Display="advanced" Required="false" Mask="false">30</Config>

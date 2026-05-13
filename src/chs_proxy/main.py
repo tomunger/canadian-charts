@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import os
+import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -27,6 +28,12 @@ TILE_SIZE = int(os.environ.get("TILE_SIZE", "256"))
 UPSTREAM_TIMEOUT = float(os.environ.get("UPSTREAM_TIMEOUT", "30"))
 MAX_ZOOM = int(os.environ.get("MAX_ZOOM", "19"))
 
+# Cache TTL in minutes. Tiles older than this are treated as a miss and
+# re-fetched from upstream. Default is 14 days; set to 0 (or negative) to
+# disable expiry and keep cached tiles forever.
+CACHE_TTL_MINUTES = int(os.environ.get("CACHE_TTL_MINUTES", str(14 * 24 * 60)))
+CACHE_TTL_SECONDS = CACHE_TTL_MINUTES * 60
+
 # Web Mercator world half-extent in metres.
 HALF = 20037508.342789244
 
@@ -48,6 +55,17 @@ def tile_to_bbox(z: int, x: int, y: int) -> tuple[float, float, float, float]:
 def cache_path(z: int, x: int, y: int) -> Path:
     # Shard by z/x to keep any one directory from getting huge.
     return CACHE_DIR / str(z) / str(x) / f"{y}.png"
+
+
+def cache_is_fresh(path: Path) -> bool:
+    """True if the cached tile exists and is within the TTL window."""
+    try:
+        mtime = path.stat().st_mtime
+    except FileNotFoundError:
+        return False
+    if CACHE_TTL_SECONDS <= 0:
+        return True
+    return (time.time() - mtime) < CACHE_TTL_SECONDS
 
 
 async def fetch_upstream(client: httpx.AsyncClient, z: int, x: int, y: int) -> bytes:
@@ -107,7 +125,7 @@ async def serve_tile(z: int, x: int, y: int) -> Response:
         raise HTTPException(status_code=400, detail="tile out of range")
 
     path = cache_path(z, x, y)
-    if path.exists():
+    if cache_is_fresh(path):
         return Response(
             content=path.read_bytes(),
             media_type="image/png",

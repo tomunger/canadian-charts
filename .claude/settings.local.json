@@ -8,7 +8,11 @@
       "WebFetch(domain:duckduckgo.com)",
       "Bash(grep -i '\\\\.kmz$')",
       "Bash(git ls-tree *)",
-      "Bash(awk '{printf \"%s  %d bytes  %s\\\\n\", $3, $4, $5}')"
+      "Bash(awk '{printf \"%s  %d bytes  %s\\\\n\", $3, $4, $5}')",
+      "Bash(git ls-remote *)",
+      "Bash(git fetch *)",
+      "Bash(gh pr *)",
+      "Bash(uv run *)"
     ]
   }
 }

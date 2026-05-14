@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.7
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS build
+FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim AS build
 WORKDIR /app
 
 ENV UV_LINK_MODE=copy \
@@ -17,7 +17,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
 
-FROM python:3.12-slim-bookworm AS runtime
+FROM python:3.13-slim-bookworm AS runtime
 WORKDIR /app
 
 LABEL org.opencontainers.image.title="chs-tile-proxy" \

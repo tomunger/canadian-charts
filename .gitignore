@@ -1,0 +1,6 @@
+# local files
+local*
+
+# Generated map files
+*.kmz
+

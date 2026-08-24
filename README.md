@@ -213,3 +213,32 @@ The chart overlay will then render at appropriate zooms on the device's map page
 ## Data attribution
 
 Chart data is © Canadian Hydrographic Service / Fisheries and Oceans Canada, served from `egisp.dfo-mpo.gc.ca`. This project is an unaffiliated client of that public service; **do not use these tiles for navigation**. Always navigate from official, up-to-date paper or ECDIS charts.
+
+# GaiaGPS
+
+try: http://cnc.tumtum.com/tiles/14/2418/5564.png
+
+Add map:  http://cnc.tumtum.com/tiles/{z}/{x}/{y}.png
+
+
+```json
+{
+  "tilejson": "2.1.0",
+  "name": "Canadian Nautical Charts",
+  "description": "A caching server for Canadian Nautical charts",
+  "version": "1.0.0",
+  "attribution": "Canadian Hydrographics Serivice va a server hosted by Tom Unger. This project is an unaffiliated client of that public service; **do not use these tiles for navigation**. Always navigate from official, up-to-date paper or ECDIS charts.",
+  "scheme": "xyz",
+  "tiles": [
+    "https://cnc.tumtum.com/tiles/{z}/{x}/{y}.png"
+  ],
+  "minzoom": 4,
+  "maxzoom": 16,
+  "bounds": [
+    -133,
+    7,
+    0,
+    80
+  ]
+}
+```
